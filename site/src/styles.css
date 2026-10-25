@@ -1136,11 +1136,6 @@ code {
   line-height: 1.6;
 }
 
-.markdown pre code.hljs {
-  padding: 0;
-  background: transparent;
-}
-
 .markdown details {
   margin: 0 0 14px;
   border: 1px solid var(--border);

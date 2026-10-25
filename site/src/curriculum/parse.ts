@@ -1,13 +1,13 @@
 import { parse as parseYaml } from 'yaml'
-import type { Branch, Curriculum, Hub, MapSpec, Paper, Lesson, Tree } from './types'
+import { CONFIG } from '../config.ts'
+import { fail } from './graph.ts'
+import type { Topic, Variant } from './quiz.ts'
+import type { Branch, Hub, MapSpec, Paper, Lesson, Tree } from './types.ts'
+
+// Readers of the repo's YAML: branches.yaml, lesson frontmatter and quiz.yaml. The server (lesson-data.ts, quiz-server.ts)
+// and the tests use them; the page gets their results already parsed, so it carries no YAML parser.
 
 const FRONTMATTER = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?/
-
-export class CurriculumError extends Error {}
-
-function fail(where: string, message: string): never {
-  throw new CurriculumError(`${where}: ${message}`)
-}
 
 function str(value: unknown, where: string, field: string): string {
   if (typeof value !== 'string' || value.trim() === '') fail(where, `"${field}" must be a non-empty string`)
@@ -68,6 +68,9 @@ function parsePapers(value: unknown, where: string): Paper[] {
   })
 }
 
+/** A lesson README without its frontmatter. */
+export const bodyOf = (source: string) => source.replace(FRONTMATTER, '')
+
 /** Parse one `lessons/<id>/README.md`. `dir` is the folder name, which must equal the id. */
 export function parseLesson(dir: string, source: string): Lesson {
   const path = `lessons/${dir}/README.md`
@@ -96,73 +99,52 @@ export function parseLesson(dir: string, source: string): Lesson {
   }
 }
 
-/** Link lessons into a graph and check references, branches and cycles. */
-export function buildCurriculum({ hub, trees, branches }: MapSpec, lessons: Lesson[]): Curriculum {
-  const branchIds = new Set(branches.map((b) => b.id))
-  if (branchIds.size !== branches.length) fail('branches.yaml', 'duplicate branch id')
-  if (branches.filter((b) => b.core).length !== 1) fail('branches.yaml', 'exactly one core branch required')
-  if (new Set(trees.map((t) => t.id)).size !== trees.length) fail('branches.yaml', 'duplicate tree id')
-  const hubBranches = hub.rings.flatMap((r) => r.branches)
-  const planted = [...hubBranches, ...trees.flatMap((t) => t.branches)]
-  for (const b of branches) {
-    if (planted.filter((id) => id === b.id).length !== 1) fail('branches.yaml', `branch "${b.id}" must sit in exactly one tree or the hub`)
-  }
-  for (const id of planted) if (!branchIds.has(id)) fail('branches.yaml', `tree lists unknown branch "${id}"`)
+// quiz.yaml
 
-  const byId = new Map<string, Lesson>()
-  for (const p of lessons) {
-    if (byId.has(p.id)) fail(p.path, `duplicate id "${p.id}"`)
-    if (!branchIds.has(p.branch)) fail(p.path, `unknown branch "${p.branch}"`)
-    byId.set(p.id, p)
-  }
-  const ringOf = new Map<string, number>()
-  hub.rings.forEach((r, i) => {
-    for (const id of r.lessons) {
-      if (!byId.has(id)) fail('branches.yaml', `hub lists unknown lesson "${id}"`)
-      if (hubBranches.includes(byId.get(id)!.branch) || ringOf.has(id)) fail('branches.yaml', `hub lesson "${id}" is listed twice`)
-      ringOf.set(id, i + 1)
-    }
-    for (const p of lessons) if (r.branches.includes(p.branch)) ringOf.set(p.id, p.requires.length === 0 ? 0 : i + 1)
-  })
-  for (const [id, ring] of ringOf) {
-    for (const q of byId.get(id)!.requires) {
-      if (!byId.has(q)) continue // reported below
-      if (!ringOf.has(q) || ringOf.get(q)! > ring) fail(byId.get(id)!.path, `hub lesson requires "${q}", which is not on its ring or inside it`)
-    }
-  }
+const TOPIC_ID = /^[a-z0-9-]+$/
+// a GitHub heading slug: lower-case letters of any script, digits, `-` and `_`
+const SECTION_ID = /^[\p{Ll}\p{Lo}\p{Lm}\p{M}\p{N}_-]+$/u
 
-  const unlocks = new Map<string, string[]>(lessons.map((p) => [p.id, []]))
-  for (const p of lessons) {
-    for (const r of p.requires) {
-      if (!byId.has(r)) fail(p.path, `requires unknown lesson "${r}"`)
-      unlocks.get(r)!.push(p.id)
-    }
-  }
-
-  // cycle check (DFS colouring)
-  const color = new Map<string, 0 | 1 | 2>()
-  const visit = (id: string, trail: string[]) => {
-    const c = color.get(id) ?? 0
-    if (c === 2) return
-    if (c === 1) fail(byId.get(id)!.path, `prerequisite cycle: ${[...trail, id].join(' -> ')}`)
-    color.set(id, 1)
-    for (const r of byId.get(id)!.requires) visit(r, [...trail, id])
-    color.set(id, 2)
-  }
-  for (const p of lessons) visit(p.id, [])
-
-  return { hub: ringOf, trees, branches, lessons, byId, unlocks }
+function section(value: unknown, where: string): string {
+  const slug = text(value, where)
+  if (!SECTION_ID.test(slug)) throw new Error(`${where}: 제목 slug 가 아닙니다`)
+  return slug
 }
 
-/** All transitive prerequisites of a lesson. */
-export function ancestors(c: Curriculum, id: string): Set<string> {
-  const out = new Set<string>()
-  const stack = [...c.byId.get(id)!.requires]
-  while (stack.length) {
-    const r = stack.pop()!
-    if (out.has(r)) continue
-    out.add(r)
-    stack.push(...c.byId.get(r)!.requires)
-  }
-  return out
+function text(value: unknown, where: string): string {
+  if (typeof value !== 'string' || !value.trim()) throw new Error(`${where}: 문자열이 아닙니다`)
+  return value.trim()
+}
+
+/** Parse lessons/<id>/quiz.yaml. Throws on a malformed bank so a broken file shows up in tests, not mid-quiz. */
+export function parseBank(source: string): Topic[] {
+  const doc: unknown = parseYaml(source)
+  if (!Array.isArray(doc) || doc.length === 0) throw new Error('quiz.yaml: topic 목록이 비었습니다')
+  const seen = new Set<string>()
+  return doc.map((raw, i) => {
+    const t = raw as Record<string, unknown>
+    const topic = text(t?.topic, `topic ${i}`)
+    if (!TOPIC_ID.test(topic) || seen.has(topic)) throw new Error(`topic ${topic}: id 가 잘못됐거나 중복입니다`)
+    seen.add(topic)
+    // a retake asks the next variant, so one variant would repeat the same question
+    if (!Array.isArray(t.variants) || t.variants.length < 2) throw new Error(`${topic}: variant 가 2개 이상이어야 합니다`)
+    const variants = t.variants.map((rawV, j): Variant => {
+      const v = rawV as Record<string, unknown>
+      const where = `${topic}.variants[${j}]`
+      const choices = Array.isArray(v?.choices) ? v.choices.map((c, k) => text(c, `${where}.choices[${k}]`)) : []
+      if (choices.length !== CONFIG.quiz.choiceCount) throw new Error(`${where}: 보기는 ${CONFIG.quiz.choiceCount}개여야 합니다`)
+      const answer = v.answer
+      if (typeof answer !== 'number' || !Number.isInteger(answer) || answer < 0 || answer >= choices.length) {
+        throw new Error(`${where}: answer 가 보기 범위를 벗어났습니다`)
+      }
+      return {
+        question: text(v.question, `${where}.question`),
+        choices,
+        answer,
+        explanation: text(v.explanation, `${where}.explanation`),
+        ...(v.section !== undefined && { section: section(v.section, `${where}.section`) }),
+      }
+    })
+    return { topic, title: text(t.title, `${topic}.title`), section: section(t.section, `${topic}.section`), variants }
+  })
 }

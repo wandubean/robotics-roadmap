@@ -1,8 +1,8 @@
 import { readdirSync, readFileSync, existsSync } from 'node:fs'
 import GithubSlugger from 'github-slugger'
 import { describe, expect, it } from 'vitest'
-import { parseLesson } from '../src/curriculum/parse'
-import { clearedAt, grade, parseBank, parseResult, passed, pickVariants, sectionOf, wrongTopics, type Attempt } from '../src/curriculum/quiz'
+import { parseBank, parseLesson } from '../src/curriculum/parse'
+import { clearedAt, grade, parseResult, passed, pickVariants, sectionOf, wrongTopics, type Attempt } from '../src/curriculum/quiz'
 
 const lessonsDir = new URL('../../lessons/', import.meta.url)
 const banks = readdirSync(lessonsDir, { withFileTypes: true })

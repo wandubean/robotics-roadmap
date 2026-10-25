@@ -1,7 +1,7 @@
 import ELK, { type ElkExtendedEdge, type ElkNode } from 'elkjs/lib/elk.bundled.js'
-import { CONFIG } from '../config'
-import { orderLayers } from './order'
-import type { Curriculum, Lesson, Tree } from './types'
+import { CONFIG } from '../config.ts'
+import { orderLayers } from './order.ts'
+import type { Curriculum, Lesson, Tree } from './types.ts'
 
 // The starting lesson sits at the centre and each tree of branches.yaml grows out of it in its own direction, so a few
 // trees together read as one round map. Each tree is a layered (Sugiyama) layout of the start and the tree's lessons:
@@ -80,6 +80,9 @@ export interface Layout {
   /** everything drawn, in graph coordinates */
   bounds: Box
 }
+
+/** What the page draws: the layout without the sampled edge polylines, which only the layout checks read. */
+export type MapLayout = Omit<Layout, 'edges'> & { edges: Omit<Edge, 'points'>[] }
 
 export function nodeSize(p: Lesson): number {
   if (p.hours >= L.hoursForSize.large) return L.nodeRadius.large

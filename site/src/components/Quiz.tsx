@@ -1,4 +1,5 @@
-import { BookOpen, Check, ChevronRight, CornerUpLeft, History, ListChecks, X } from 'lucide-react'
+import type { Root } from 'hast'
+import { BookOpen, Check, ChevronRight, CornerUpLeft, History, ListChecks, X } from './icons'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { CONFIG } from '../config'
 import { hasQuiz, loadBank } from '../curriculum/load'
@@ -6,7 +7,6 @@ import { progress } from '../curriculum/progress'
 import {
   clearedAt,
   grade,
-  parseBank,
   passed,
   pickVariants,
   sectionOf,
@@ -207,16 +207,14 @@ export function QuizReturn({ attempts, nav }: { attempts: readonly Attempt[]; na
 
 /** The lesson's question bank, fetched when a dialog opens. */
 function useBank(lessonId: string) {
-  const [bank, setBank] = useState<Topic[] | null>(null)
+  const [bank, setBank] = useState<Topic<Root>[] | null>(null)
   const [error, setError] = useState<string | null>(null)
   useEffect(() => {
     let live = true
-    loadBank(lessonId)
-      .then(parseBank)
-      .then(
-        (b) => live && setBank(b),
-        (e) => live && setError(`문항을 불러오지 못했습니다: ${e instanceof Error ? e.message : e}`),
-      )
+    loadBank(lessonId).then(
+      (b) => live && setBank(b),
+      (e) => live && setError(`문항을 불러오지 못했습니다: ${e instanceof Error ? e.message : e}`),
+    )
     return () => {
       live = false
     }
@@ -351,7 +349,7 @@ function TakeDialog({ lessonId, title, attempts: opened, onClose, onSubmitted }:
           <h2 id="quiz-heading" ref={headingRef} tabIndex={-1} className="sr-only">
             {step + 1}번 문항
           </h2>
-          <Markdown lessonId={lessonId} source={variant.question} />
+          <Markdown lessonId={lessonId} tree={variant.question} />
           <div className="quiz-choices">
             {variant.choices.map((choice, i) => (
               <label key={i} className={`quiz-choice ${chosen === i ? 'is-on' : ''}`}>
@@ -364,7 +362,7 @@ function TakeDialog({ lessonId, title, attempts: opened, onClose, onSubmitted }:
                 <span className="quiz-choice-key" aria-hidden="true">
                   {i + 1}
                 </span>
-                <Markdown lessonId={lessonId} source={choice} inline />
+                <Markdown lessonId={lessonId} tree={choice} inline />
               </label>
             ))}
           </div>
@@ -430,7 +428,7 @@ function ReviewDialog({ lessonId, title, attempts, index, focus, read, onPick, o
   })) ?? []
   const wrong = rows.filter((r) => !r.a.correct)
   const right = rows.filter((r) => r.a.correct)
-  const item = ({ a, topic }: { a: Answer; topic: Topic }) => (
+  const item = ({ a, topic }: { a: Answer; topic: Topic<Root> }) => (
     <ReviewItem key={a.topic} lessonId={lessonId} answer={a} topic={topic} read={read.has(`${index}:${a.topic}`)} onJump={(s) => onJump(index, a.topic, s)} />
   )
 
@@ -517,7 +515,7 @@ function verdict(attempt: Attempt, clearedHere: boolean): string {
   return `틀린 문항이 ${wrong}개입니다. 해설 아래 "강의에서 읽기" 로 그 내용을 다룬 절을 읽고, 강의 아래쪽에 뜨는 "퀴즈 해설로 돌아가기" 로 돌아와 다음 문항을 봅니다.`
 }
 
-function ReviewItem({ lessonId, answer: a, topic, read, onJump }: { lessonId: string; answer: Answer; topic: Topic; read: boolean; onJump(section: string): void }) {
+function ReviewItem({ lessonId, answer: a, topic, read, onJump }: { lessonId: string; answer: Answer; topic: Topic<Root>; read: boolean; onJump(section: string): void }) {
   const v = topic.variants[a.variant]
   const section = sectionOf(topic, a.variant)
   // the lecture is already on screen behind the dialog; a heading that is not there (body still loading) gets no button
@@ -529,22 +527,22 @@ function ReviewItem({ lessonId, answer: a, topic, read, onJump }: { lessonId: st
         <span className="sr-only">{a.correct ? '정답' : '오답'}</span>
         {topic.title}
       </p>
-      <Markdown lessonId={lessonId} source={v.question} />
+      <Markdown lessonId={lessonId} tree={v.question} />
       <dl>
         {!a.correct && (
           <>
             <dt>고른 답</dt>
             <dd>
-              <Markdown lessonId={lessonId} source={v.choices[a.choice]} inline />
+              <Markdown lessonId={lessonId} tree={v.choices[a.choice]} inline />
             </dd>
           </>
         )}
         <dt>정답</dt>
         <dd>
-          <Markdown lessonId={lessonId} source={v.choices[v.answer]} inline />
+          <Markdown lessonId={lessonId} tree={v.choices[v.answer]} inline />
         </dd>
       </dl>
-      <Markdown lessonId={lessonId} source={v.explanation} />
+      <Markdown lessonId={lessonId} tree={v.explanation} />
       {heading && (
         <button type="button" className={`text-button quiz-reread ${read ? 'is-read' : ''}`} onClick={() => onJump(section)}>
           <BookOpen size={15} aria-hidden="true" />

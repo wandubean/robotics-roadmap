@@ -16,7 +16,7 @@ import {
   WebGLRenderer,
 } from 'three'
 import { CONFIG } from '../config'
-import type { Layout } from '../curriculum/layout'
+import type { MapLayout } from '../curriculum/layout'
 import type { Curriculum } from '../curriculum/types'
 
 /** the map's zoom: a point (x, y) of the layout is drawn at (x·k + tx, y·k + ty) on screen */
@@ -34,7 +34,7 @@ export interface SceneHandle {
 
 interface Props {
   curriculum: Curriculum
-  layout: Layout
+  layout: MapLayout
   /** false when WebGL is not available, so the SVG keeps drawing the trees' tints */
   onReady(ok: boolean): void
   ref?: Ref<SceneHandle>

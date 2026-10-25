@@ -1,4 +1,4 @@
-import { HelpCircle, Maximize2, Minus, Plus } from 'lucide-react'
+import { HelpCircle, Maximize2, Minus, Plus } from './icons'
 import { CONFIG } from '../config'
 import { nodeState, statusOf, type ProgressFile } from '../curriculum/progress'
 import type { Curriculum } from '../curriculum/types'

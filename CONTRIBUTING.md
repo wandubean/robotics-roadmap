@@ -102,6 +102,12 @@
 띄우면 `site/quiz-server.ts` 가 퀴즈 답안을 채점해 `progress/<강의>.json` 에 쌓는다. `npm run build` 결과물(예시 사이트)에는
 dev server 가 없어서 페이지 안에서 채점하고, 결과는 새로고침하면 사라진다.
 
+휴대폰처럼 느린 기기에서도 지도와 강의가 빨리 뜨도록, 무거운 계산은 페이지가 아니라 dev server 와 build 가 미리 한다
+([`site/lesson-data.ts`](site/lesson-data.ts)). frontmatter 와 `branches.yaml` 을 읽고 ELK 로 지도 배치까지 계산해 퀴즈 기록과 함께
+module 두 개로 보내고, 강의 본문과 퀴즈 문항은 markdown·수식(KaTeX)을 HTML tree 로 바꿔([`site/lesson-render.ts`](site/lesson-render.ts))
+열 때 받게 한다. 그래서 페이지에는 YAML·markdown·KaTeX·ELK 코드가 실리지 않는다. 강의 그림은 `lessons/<id>/figures/` 경로 그대로
+내보내고, 성운 배경(three.js)은 지도가 뜬 뒤에 받는다.
+
 dev server 는 시작할 때 `site/update-server.ts` 로 원본 리포를 `upstream` remote 에 받아 와(없으면 remote 를 더한다) fork 가 몇 커밋
 뒤처졌는지 확인하고, 화면이 업데이트할지 물은 뒤 `git merge upstream/main` 으로 합친다. 상태 변화는 Vite 의 WebSocket 으로 화면에
 보낸다. 원본 리포 자체에서 띄우면 확인하지 않는다.

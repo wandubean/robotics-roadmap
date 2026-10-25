@@ -5,12 +5,12 @@ import { Intro } from './components/Intro'
 import { PanelResizer, usePanelWidth } from './components/PanelResizer'
 import { UpdateBanner } from './components/UpdateBanner'
 import { CONFIG } from './config'
-import { computeLayout, type Layout } from './curriculum/layout'
-import { curriculum } from './curriculum/load'
+import { curriculum, layout } from './curriculum/load'
 import { useProgress } from './curriculum/progress'
 
 // the panel pulls in markdown, KaTeX and highlighting; the graph does not need them to show up
-const LessonPanel = lazy(() => import('./components/LessonPanel').then((m) => ({ default: m.LessonPanel })))
+const loadPanel = () => import('./components/LessonPanel')
+const LessonPanel = lazy(() => loadPanel().then((m) => ({ default: m.LessonPanel })))
 
 const ROUTE = /^#\/p\/([a-z0-9-]+)$/
 
@@ -39,13 +39,10 @@ function introSeen(): boolean {
 }
 
 export function App() {
-  const [layout, setLayout] = useState<Layout | null>(null)
+  // fetch the panel's code once the map is up, so the first lesson opens without waiting for it
   useEffect(() => {
-    let live = true
-    computeLayout(curriculum).then((l) => live && setLayout(l))
-    return () => {
-      live = false
-    }
+    const idle = window.requestIdleCallback ?? ((f: () => void) => window.setTimeout(f, CONFIG.panel.prefetchDelay))
+    idle(() => void loadPanel())
   }, [])
   const progressFile = useProgress()
   const [selectedId, setSelectedId] = useState<string | null>(readRoute)
@@ -104,21 +101,19 @@ export function App() {
       className={`app ${panelOpen ? 'has-panel' : ''} ${resizing ? 'is-resizing' : ''}`}
       style={{ ['--panel-width' as string]: `${panel.width}px` }}
     >
-      {layout && (
-        <Holygraph
-          ref={controls}
-          curriculum={curriculum}
-          layout={layout}
-          progress={progressFile}
-          selectedId={selectedId}
-          hoverId={hoverId}
-          hoverBranch={hoverBranch}
-          insets={insets}
-          onSelect={select}
-          onBackgroundClick={() => selectedId && close()}
-          onHover={setHoverId}
-        />
-      )}
+      <Holygraph
+        ref={controls}
+        curriculum={curriculum}
+        layout={layout}
+        progress={progressFile}
+        selectedId={selectedId}
+        hoverId={hoverId}
+        hoverBranch={hoverBranch}
+        insets={insets}
+        onSelect={select}
+        onBackgroundClick={() => selectedId && close()}
+        onHover={setHoverId}
+      />
 
       <TopBar
         curriculum={curriculum}

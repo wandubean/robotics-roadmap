@@ -1,14 +1,17 @@
 import { select } from 'd3-selection'
 import 'd3-transition'
 import { zoom, zoomIdentity, zoomTransform, type ZoomBehavior } from 'd3-zoom'
-import { useEffect, useImperativeHandle, useMemo, useRef, useState, type Ref } from 'react'
+import { lazy, Suspense, useEffect, useImperativeHandle, useMemo, useRef, useState, type Ref } from 'react'
 import { CONFIG } from '../config'
-import type { Layout } from '../curriculum/layout'
-import { ancestors } from '../curriculum/parse'
+import type { MapLayout } from '../curriculum/layout'
+import { ancestors } from '../curriculum/graph'
 import { nodeState, type ProgressFile } from '../curriculum/progress'
 import type { Curriculum, NodeState } from '../curriculum/types'
-import { MapScene, type SceneHandle } from './MapScene'
+import type { SceneHandle } from './MapScene'
 import { TREE_ART } from './treeArt'
+
+// the WebGL sky behind the map brings three.js; the map draws and answers without it, so it loads after
+const MapScene = lazy(() => import('./MapScene').then((m) => ({ default: m.MapScene })))
 
 export interface Insets {
   top: number
@@ -25,7 +28,7 @@ export interface GraphControls {
 
 interface Props {
   curriculum: Curriculum
-  layout: Layout
+  layout: MapLayout
   progress: ProgressFile
   selectedId: string | null
   hoverId: string | null
@@ -162,7 +165,7 @@ export function Holygraph({
   const L = CONFIG.layout
   // a tree's area: the wedge between its two dividers, from the hub's rim to far past the map so its outer edge never
   // shows
-  const wedge = (r: Layout['sectors'][number]) => {
+  const wedge = (r: MapLayout['sectors'][number]) => {
     const at = (radius: number, deg: number) => {
       const a = (deg * Math.PI) / 180
       return `${(radius * Math.sin(a)).toFixed(1)},${(-radius * Math.cos(a)).toFixed(1)}`
@@ -174,7 +177,19 @@ export function Holygraph({
 
   return (
     <>
-      <MapScene ref={sceneRef} curriculum={c} layout={layout} onReady={setScene} />
+      <Suspense fallback={null}>
+        <MapScene
+          ref={sceneRef}
+          curriculum={c}
+          layout={layout}
+          onReady={(ok) => {
+            setScene(ok)
+            // the scene arrives after the map has been zoomed into place; hand it the zoom it missed
+            const t = svgRef.current && zoomTransform(svgRef.current)
+            if (ok && t) sceneRef.current?.setTransform({ k: t.k, x: t.x, y: t.y })
+          }}
+        />
+      </Suspense>
       <svg
         ref={svgRef}
         className={`holygraph ${scene ? 'has-scene' : ''}`}

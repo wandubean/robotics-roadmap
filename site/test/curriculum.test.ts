@@ -5,7 +5,8 @@ import { describe, expect, it } from 'vitest'
 import { CONFIG } from '../src/config'
 import { boxesOverlap, computeLayout, treeCurriculum, type NodePos, type Point } from '../src/curriculum/layout'
 import { orderLayers } from '../src/curriculum/order'
-import { buildCurriculum, parseBranches, parseLesson } from '../src/curriculum/parse'
+import { buildCurriculum } from '../src/curriculum/graph'
+import { parseBranches, parseLesson } from '../src/curriculum/parse'
 
 const ROOT = join(__dirname, '..', '..', 'lessons')
 // a lecture opens with its goals and closes with a summary and references; the sections between are free

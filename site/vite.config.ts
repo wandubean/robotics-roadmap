@@ -1,29 +1,13 @@
 import { readFileSync } from 'node:fs'
-import { readFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
-import { defineConfig, type HtmlTagDescriptor, type Plugin } from 'vite'
+import { defineConfig, type Connect, type HtmlTagDescriptor, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
+import compression from 'compression'
 // the config and the files it imports name their .ts extension, as Node's own TypeScript loading requires
+import { lessonData } from './lesson-data.ts'
 import { quizServer } from './quiz-server.ts'
 import { updateServer } from './update-server.ts'
 import { CONFIG } from './src/config.ts'
-
-const FRONTMATTER = /^---\r?\n[\s\S]*?\r?\n---\r?\n?/
-
-/** `README.md?frontmatter` imports only the YAML header, so the graph loads without every subject body. */
-function frontmatterOnly(): Plugin {
-  return {
-    name: 'frontmatter-only',
-    enforce: 'pre',
-    async load(id) {
-      if (!id.endsWith('?frontmatter')) return
-      const file = id.slice(0, -'?frontmatter'.length)
-      this.addWatchFile(file)
-      const match = FRONTMATTER.exec(await readFile(file, 'utf8'))
-      return `export default ${JSON.stringify(match ? match[0] : '')}`
-    },
-  }
-}
 
 /** Description and Open Graph / Twitter card tags, so a shared link shows a title, summary and the map image. */
 function shareMeta(): Plugin {
@@ -56,6 +40,20 @@ function shareMeta(): Plugin {
 }
 
 /**
+ * The dev server sends modules unminified, so a phone opening the map over Tailscale would pull megabytes of plain text;
+ * gzip cuts that to a fifth. The built site is compressed by its host instead.
+ */
+function compressDev(): Plugin {
+  return {
+    name: 'compress-dev',
+    configureServer(server) {
+      // compression is typed for Express; it only uses the Node request and response that connect hands it
+      server.middlewares.use(compression() as unknown as Connect.NextHandleFunction)
+    },
+  }
+}
+
+/**
  * Optional, git-ignored dev-server.local.json for opening the map from another machine, e.g.
  * { "host": true, "allowedHosts": ["my-laptop", ".ts.net"] }. Without it the server answers on localhost only.
  */
@@ -72,8 +70,9 @@ const repoRoot = fileURLToPath(new URL('..', import.meta.url))
 
 export default defineConfig({
   base: './',
-  plugins: [frontmatterOnly(), react(), shareMeta(), quizServer(repoRoot), updateServer(repoRoot)],
+  plugins: [compressDev(), lessonData(repoRoot), react(), shareMeta(), quizServer(repoRoot), updateServer(repoRoot)],
   server: { ...localServerOptions(), fs: { allow: ['..'] } },
-  // the lazily loaded panel chunk carries markdown + KaTeX (~240 kB gzip)
-  build: { chunkSizeWarningLimit: 900 },
+  // a lesson body arrives as its rendered tree in a JSON string, KaTeX output included: up to about 2.3 MB (85 kB gzip)
+  // for the longest. The code chunks stay near 500 kB
+  build: { chunkSizeWarningLimit: 2400 },
 })

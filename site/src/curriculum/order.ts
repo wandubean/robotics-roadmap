@@ -1,7 +1,7 @@
 // Layer assignment and in-layer order for the map, computed before ELK so the map keeps few crossings.
 // ELK's own crossing minimisation leaves many crossings on this graph; this one runs barycentre sweeps
 // with adjacent swaps from many seeded starts and keeps the best, which ELK then takes as given.
-import type { Curriculum } from './types'
+import type { Curriculum } from './types.ts'
 
 export interface Ordering {
   /**

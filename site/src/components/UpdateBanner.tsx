@@ -1,4 +1,4 @@
-import { RefreshCw } from 'lucide-react'
+import { RefreshCw } from './icons'
 import { useEffect, useRef, useState } from 'react'
 import type { UpdateState } from '../../update-server'
 import { CONFIG } from '../config'

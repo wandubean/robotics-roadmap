@@ -1,6 +1,6 @@
-import 'highlight.js/styles/github-dark.css'
+import type { Root } from 'hast'
 import 'katex/dist/katex.min.css'
-import { BookOpen, ClipboardCheck, Clock, ExternalLink, ListChecks, X } from 'lucide-react'
+import { BookOpen, ClipboardCheck, Clock, ExternalLink, ListChecks, X } from './icons'
 import { memo, useEffect, useRef, useState } from 'react'
 import { CONFIG } from '../config'
 import { loadBody } from '../curriculum/load'
@@ -87,7 +87,7 @@ export const LessonPanel = memo(function LessonPanel({ curriculum: c, progressFi
   const status = statusOf(progressFile, lessonId)
   const missing = lesson.requires.filter((r) => statusOf(progressFile, r) !== 'done')
   const unlocks = c.unlocks.get(lessonId) ?? []
-  const [body, setBody] = useState<string | null>(null)
+  const [body, setBody] = useState<Root | null>(null)
   const [failed, setFailed] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
   const headingRef = useRef<HTMLHeadingElement>(null)
@@ -195,7 +195,7 @@ export const LessonPanel = memo(function LessonPanel({ curriculum: c, progressFi
         </header>
 
         {body !== null ? (
-          <Markdown lessonId={lessonId} source={body} />
+          <Markdown lessonId={lessonId} tree={body} />
         ) : failed ? (
           <p className="soft-note" role="alert">
             강의를 불러오지 못했습니다. 새로고침하거나 아래 GitHub 링크에서 읽을 수 있습니다.

@@ -1,4 +1,4 @@
-import { X } from 'lucide-react'
+import { X } from './icons'
 import { useEffect, useRef } from 'react'
 import { CONFIG } from '../config'
 

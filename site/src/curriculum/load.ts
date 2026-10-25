@@ -1,65 +1,53 @@
-import branchesSource from '../../../lessons/branches.yaml?raw'
-import { buildCurriculum, parseBranches, parseLesson } from './parse'
-import { parseResult, type Attempt } from './quiz'
+import type { Root } from 'hast'
+import { lessons, layout as rawLayout, spec } from 'virtual:curriculum'
+import { records } from 'virtual:progress'
+import type { MapLayout, NodePos } from './layout'
+import { buildCurriculum } from './graph'
+import { parseResult, type Attempt, type Topic } from './quiz'
 
-// Headers are bundled with the graph; bodies are fetched when a subject is opened.
-const headers = import.meta.glob('../../../lessons/*/README.md', {
-  query: '?frontmatter',
-  import: 'default',
-  eager: true,
-}) as Record<string, string>
-
+// The parsed frontmatter and the layout come with the graph in one module (see lesson-data.ts); bodies are fetched when
+// a subject is opened. In dev, editing a lesson re-runs this module through HMR, so the map stays in step with the repo.
 const bodies = import.meta.glob('../../../lessons/*/README.md', {
-  query: '?raw',
+  query: '?lesson',
   import: 'default',
-}) as Record<string, () => Promise<string>>
-
-const assets = import.meta.glob('../../../lessons/*/**/*.{png,jpg,jpeg,gif,svg,webp}', {
-  query: '?url',
-  import: 'default',
-  eager: true,
-}) as Record<string, string>
+}) as Record<string, () => Promise<Root>>
 
 const subjectPath = (id: string) => `../../../lessons/${id}/README.md`
 
-const lessons = Object.entries(headers).map(([file, header]) => parseLesson(file.split('/').at(-2)!, header))
+export const curriculum = buildCurriculum(spec, lessons)
 
-export const curriculum = buildCurriculum(parseBranches(branchesSource), lessons)
+/** The map layout, computed on the server from the same frontmatter. */
+export const layout: MapLayout = (() => {
+  const raw = rawLayout as Omit<MapLayout, 'nodes'> & { nodes: [string, NodePos][] }
+  return { ...raw, nodes: new Map(raw.nodes) }
+})()
 
-/** Full subject markdown without its frontmatter. */
-export async function loadBody(id: string): Promise<string> {
-  const source = await bodies[subjectPath(id)]()
-  return parseLesson(id, source).body
+/** The lesson body, rendered on the server (lesson-render.ts). */
+export async function loadBody(id: string): Promise<Root> {
+  return bodies[subjectPath(id)]()
 }
 
-/** Resolve an asset referenced from a lesson's README (e.g. `img/arch.png`). */
-export function assetUrl(lessonId: string, relative: string): string | undefined {
-  const clean = relative.replace(/^\.\//, '')
-  return assets[`../../../lessons/${lessonId}/${clean}`]
+/** Where a figure referenced from a lesson's README (e.g. `figures/arch.svg`) is served: lessons/<id>/... beside the page. */
+export function assetUrl(lessonId: string, relative: string): string {
+  return `lessons/${lessonId}/${relative.replace(/^\.\//, '')}`
 }
 
+// parsed and rendered on the server (lesson-data.ts)
 const banks = import.meta.glob('../../../lessons/*/quiz.yaml', {
-  query: '?raw',
+  query: '?bank',
   import: 'default',
-}) as Record<string, () => Promise<string>>
+}) as Record<string, () => Promise<Topic<Root>[]>>
 
 /** Whether a lesson has a quiz bank. */
 export const hasQuiz = (id: string) => `../../../lessons/${id}/quiz.yaml` in banks
 
-/** Raw lessons/<id>/quiz.yaml, fetched when the quiz opens. */
-export async function loadBank(id: string): Promise<string> {
+/** lessons/<id>/quiz.yaml, fetched when the quiz opens. */
+export async function loadBank(id: string): Promise<Topic<Root>[]> {
   return banks[`../../../lessons/${id}/quiz.yaml`]()
 }
 
 // Results are small and decide every node's state, so they ship with the graph. In dev, a file the quiz server writes
-// re-runs this module through HMR, so the map stays in step with the repo. The folder is CONFIG.quiz.progressDir (globs
-// take literals only).
-const results = import.meta.glob('../../../progress/*.json', {
-  query: '?raw',
-  import: 'default',
-  eager: true,
-}) as Record<string, string>
-
+// re-runs this module through HMR.
 export const initialAttempts: Record<string, Attempt[]> = Object.fromEntries(
-  Object.entries(results).map(([file, source]) => [file.split('/').at(-1)!.replace(/\.json$/, ''), parseResult(source).attempts]),
+  Object.entries(records).map(([id, source]) => [id, parseResult(source).attempts]),
 )

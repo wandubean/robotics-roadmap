@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { buildCurriculum } from '../src/curriculum/parse'
+import { buildCurriculum } from '../src/curriculum/graph'
 import { nodeState, passedOn, statusOf } from '../src/curriculum/progress'
 import type { Attempt } from '../src/curriculum/quiz'
 import type { Branch, Lesson } from '../src/curriculum/types'
