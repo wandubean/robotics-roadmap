@@ -1,3 +1,14 @@
+/* Greek letters in running text (π0, ε, τ): IBM Plex Sans KR draws them at the x-height and thin, so next to digits
+   and capitals "π0" is hard to read. They come from IBM Plex Sans instead, a little larger. */
+@font-face {
+  font-family: 'Plex Greek';
+  src: url(https://fonts.gstatic.com/s/ibmplexsans/v23/zYXzKVElMYYaJe8bpLHnCwDKr932-G7dytD-Dmu1syxdKYbSB4ZhRNU.woff2) format('woff2');
+  font-weight: 100 700;
+  font-display: swap;
+  unicode-range: U+0370-03FF;
+  size-adjust: 115%;
+}
+
 :root {
   color-scheme: dark;
   --bg: #05080f;
@@ -16,7 +27,7 @@
   --node-fill: #0b1222;
   --edge-locked: #7088b3;
   --radius: 12px;
-  --font-sans: 'IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif;
+  --font-sans: 'Plex Greek', 'IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
