@@ -6,10 +6,6 @@ requires: [lidar-slam, cnn]
 hours: 2
 summary: 좌표만 있는 point cloud 에서 주변 물체를 찾아 상자로 감싸고 frame 사이로 이어 추적하는 방법. ground removal, clustering, PointPillars, KITTI·nuScenes 지표, tracking, camera fusion
 papers:
-  - title: "PointPillars: Fast Encoders for Object Detection from Point Clouds"
-    authors: Alex H. Lang, Sourabh Vora, Holger Caesar, Lubing Zhou, Jiong Yang, Oscar Beijbom
-    year: 2019
-    url: https://arxiv.org/abs/1812.05784
   - title: "Random Sample Consensus: A Paradigm for Model Fitting with Applications to Image Analysis and Automated Cartography"
     authors: Martin A. Fischler, Robert C. Bolles
     year: 1981
@@ -18,6 +14,10 @@ papers:
     authors: Andreas Geiger, Philip Lenz, Raquel Urtasun
     year: 2012
     url: https://www.cvlibs.net/publications/Geiger2012CVPR.pdf
+  - title: "PointPillars: Fast Encoders for Object Detection from Point Clouds"
+    authors: Alex H. Lang, Sourabh Vora, Holger Caesar, Lubing Zhou, Jiong Yang, Oscar Beijbom
+    year: 2019
+    url: https://arxiv.org/abs/1812.05784
   - title: "nuScenes: A multimodal dataset for autonomous driving"
     authors: Holger Caesar et al.
     year: 2020

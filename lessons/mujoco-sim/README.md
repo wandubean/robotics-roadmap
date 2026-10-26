@@ -10,14 +10,14 @@ papers:
     authors: Emanuel Todorov, Tom Erez, Yuval Tassa
     year: 2012
     url: https://doi.org/10.1109/IROS.2012.6386109
-  - title: "MuJoCo Menagerie: A collection of high-quality simulation models for MuJoCo"
-    authors: Kevin Zakka, Yuval Tassa, MuJoCo Menagerie Contributors
-    year: 2022
-    url: https://github.com/google-deepmind/mujoco_menagerie
   - title: "Learning Dexterous In-Hand Manipulation"
     authors: OpenAI, Marcin Andrychowicz, Bowen Baker, Maciek Chociej, Rafal Jozefowicz, Bob McGrew, Jakub Pachocki, Arthur Petron, Matthias Plappert, Glenn Powell, Alex Ray, Jonas Schneider, Szymon Sidor, Josh Tobin, Peter Welinder, Lilian Weng, Wojciech Zaremba
     year: 2018
     url: https://arxiv.org/abs/1808.00177
+  - title: "MuJoCo Menagerie: A collection of high-quality simulation models for MuJoCo"
+    authors: Kevin Zakka, Yuval Tassa, MuJoCo Menagerie Contributors
+    year: 2022
+    url: https://github.com/google-deepmind/mujoco_menagerie
 ---
 
 # MuJoCo Simulation

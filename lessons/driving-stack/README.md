@@ -6,14 +6,14 @@ requires: [path-tracking, lidar-perception]
 hours: 2
 summary: 센서 입력을 핸들·브레이크 명령으로 바꾸는 자율주행차의 module 구성. NDT localization, Lanelet2 지도, prediction·planning·control, latency budget, SAE level 과 ODD, end-to-end
 papers:
-  - title: "Autoware on Board: Enabling Autonomous Vehicles with Embedded Systems"
-    authors: Shinpei Kato et al.
-    year: 2018
-    url: https://doi.org/10.1109/ICCPS.2018.00035
   - title: "The Normal Distributions Transform: A New Approach to Laser Scan Matching"
     authors: Peter Biber, Wolfgang Straßer
     year: 2003
     url: https://doi.org/10.1109/IROS.2003.1249285
+  - title: "Autoware on Board: Enabling Autonomous Vehicles with Embedded Systems"
+    authors: Shinpei Kato et al.
+    year: 2018
+    url: https://doi.org/10.1109/ICCPS.2018.00035
   - title: "Lanelet2: A High-Definition Map Framework for the Future of Automated Driving"
     authors: Fabian Poggenhans et al.
     year: 2018

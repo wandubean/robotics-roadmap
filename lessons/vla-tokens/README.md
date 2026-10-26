@@ -6,22 +6,22 @@ requires: [rt1, clip, gpt]
 hours: 2
 summary: 인터넷의 사진과 글로 학습한 VLM 이 로봇 action 을 token 으로 쓰게 만든 RT-2·OpenVLA. 256 칸 action token, co-fine-tuning 과 일반화의 범위, OpenVLA 의 구조와 LoRA fine-tuning, 정밀도·속도·한 step 출력의 한계
 papers:
-  - title: "RT-2: Vision-Language-Action Models Transfer Web Knowledge to Robotic Control"
-    authors: Anthony Brohan et al.
-    year: 2023
-    url: https://arxiv.org/abs/2307.15818
-  - title: "OpenVLA: An Open-Source Vision-Language-Action Model"
-    authors: Moo Jin Kim et al.
-    year: 2024
-    url: https://arxiv.org/abs/2406.09246
-  - title: "Open X-Embodiment: Robotic Learning Datasets and RT-X Models"
-    authors: Open X-Embodiment Collaboration
-    year: 2023
-    url: https://arxiv.org/abs/2310.08864
   - title: "LoRA: Low-Rank Adaptation of Large Language Models"
     authors: Edward J. Hu et al.
     year: 2021
     url: https://arxiv.org/abs/2106.09685
+  - title: "RT-2: Vision-Language-Action Models Transfer Web Knowledge to Robotic Control"
+    authors: Anthony Brohan et al.
+    year: 2023
+    url: https://arxiv.org/abs/2307.15818
+  - title: "Open X-Embodiment: Robotic Learning Datasets and RT-X Models"
+    authors: Open X-Embodiment Collaboration
+    year: 2023
+    url: https://arxiv.org/abs/2310.08864
+  - title: "OpenVLA: An Open-Source Vision-Language-Action Model"
+    authors: Moo Jin Kim et al.
+    year: 2024
+    url: https://arxiv.org/abs/2406.09246
   - title: "Fine-Tuning Vision-Language-Action Models: Optimizing Speed and Success"
     authors: Moo Jin Kim, Chelsea Finn, Percy Liang
     year: 2025

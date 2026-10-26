@@ -18,14 +18,14 @@ papers:
     authors: Kevin Frans, Danijar Hafner, Sergey Levine, Pieter Abbeel
     year: 2024
     url: https://arxiv.org/abs/2410.12557
-  - title: "Mean Flows for One-step Generative Modeling"
-    authors: Zhengyang Geng, Mingyang Deng, Xingjian Bai, J. Zico Kolter, Kaiming He
-    year: 2025
-    url: https://arxiv.org/abs/2505.13447
   - title: "Consistency Policy: Accelerated Visuomotor Policies via Consistency Distillation"
     authors: Aaditya Prasad, Kevin Lin, Jimmy Wu, Linqi Zhou, Jeannette Bohg
     year: 2024
     url: https://arxiv.org/abs/2405.07503
+  - title: "Mean Flows for One-step Generative Modeling"
+    authors: Zhengyang Geng, Mingyang Deng, Xingjian Bai, J. Zico Kolter, Kaiming He
+    year: 2025
+    url: https://arxiv.org/abs/2505.13447
   - title: "ManiFlow: A General Robot Manipulation Policy via Consistency Flow Training"
     authors: Ge Yan et al.
     year: 2025

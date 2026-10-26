@@ -6,14 +6,14 @@ requires: [behavior-cloning, vae, transformer, resnet]
 hours: 3
 summary: 관측 한 번에 앞으로 100 step 의 action 을 묶어 내는 action chunking, 겹치는 chunk 를 섞는 temporal ensembling, 시연의 style 을 담는 CVAE 의 z, ALOHA 와 LeRobot 의 ACT 설정
 papers:
-  - title: "Learning Fine-Grained Bimanual Manipulation with Low-Cost Hardware"
-    authors: Tony Z. Zhao, Vikash Kumar, Sergey Levine, Chelsea Finn
-    year: 2023
-    url: https://arxiv.org/abs/2304.13705
   - title: "End-to-End Object Detection with Transformers"
     authors: Nicolas Carion, Francisco Massa, Gabriel Synnaeve, Nicolas Usunier, Alexander Kirillov, Sergey Zagoruyko
     year: 2020
     url: https://arxiv.org/abs/2005.12872
+  - title: "Learning Fine-Grained Bimanual Manipulation with Low-Cost Hardware"
+    authors: Tony Z. Zhao, Vikash Kumar, Sergey Levine, Chelsea Finn
+    year: 2023
+    url: https://arxiv.org/abs/2304.13705
 ---
 
 # ACT

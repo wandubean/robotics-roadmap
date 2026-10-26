@@ -18,7 +18,7 @@
 | `requires` | 먼저 읽어 두면 좋은 강의 id 목록 |
 | `hours` | 강의를 읽고 퀴즈를 푸는 데 드는 예상 시간 |
 | `summary` | 지도에 보이는 한 줄 설명 |
-| `papers` | 강의가 다루는 논문(`title`·`authors`·`year`, 선택으로 `url`) |
+| `papers` | 강의가 다루는 논문(`title`·`authors`·`year`, 선택으로 `url`). 오래된 것부터 `year` 순서로 적는다 |
 
 ## 강의 본문 규칙
 

@@ -10,6 +10,10 @@ papers:
     authors: Nikolaus Correll, Kostas E. Bekris, Dmitry Berenson, Oliver Brock, Albert Causo, Kris Hauser, Kei Okada, Alberto Rodriguez, Joseph M. Romano, Peter R. Wurman
     year: 2016
     url: https://arxiv.org/abs/1601.05484
+  - title: "End-to-End Training of Deep Visuomotor Policies"
+    authors: Sergey Levine, Chelsea Finn, Trevor Darrell, Pieter Abbeel
+    year: 2016
+    url: https://arxiv.org/abs/1504.00702
   - title: "MoveIt! Task Constructor for Task-Level Motion Planning"
     authors: Michael Görner, Robert Haschke, Helge Ritter, Jianwei Zhang
     year: 2019
@@ -18,10 +22,6 @@ papers:
     authors: Tianheng Cheng, Lin Song, Yixiao Ge, Wenyu Liu, Xinggang Wang, Ying Shan
     year: 2024
     url: https://arxiv.org/abs/2401.17270
-  - title: "End-to-End Training of Deep Visuomotor Policies"
-    authors: Sergey Levine, Chelsea Finn, Trevor Darrell, Pieter Abbeel
-    year: 2016
-    url: https://arxiv.org/abs/1504.00702
 ---
 
 # Classical Pick & Place

@@ -6,14 +6,14 @@ requires: [lidar-slam, camera-geometry]
 hours: 2
 summary: 카메라 사진만으로 자기 위치와 3D 지도를 함께 만드는 방법. ORB feature, triangulation, keyframe 과 bundle adjustment, monocular scale, IMU 를 합친 VIO
 papers:
-  - title: "ORB: An efficient alternative to SIFT or SURF"
-    authors: Ethan Rublee, Vincent Rabaud, Kurt Konolige, Gary Bradski
-    year: 2011
-    url: https://doi.org/10.1109/ICCV.2011.6126544
   - title: "Bundle Adjustment — A Modern Synthesis"
     authors: Bill Triggs, Philip McLauchlan, Richard Hartley, Andrew Fitzgibbon
     year: 2000
     url: https://inria.hal.science/inria-00590128
+  - title: "ORB: An efficient alternative to SIFT or SURF"
+    authors: Ethan Rublee, Vincent Rabaud, Kurt Konolige, Gary Bradski
+    year: 2011
+    url: https://doi.org/10.1109/ICCV.2011.6126544
   - title: "ORB-SLAM: A Versatile and Accurate Monocular SLAM System"
     authors: Raúl Mur-Artal, J. M. M. Montiel, Juan D. Tardós
     year: 2015

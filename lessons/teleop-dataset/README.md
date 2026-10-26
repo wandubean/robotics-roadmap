@@ -10,14 +10,14 @@ papers:
     authors: Ajay Mandlekar et al.
     year: 2018
     url: https://arxiv.org/abs/1811.02790
-  - title: "Learning Fine-Grained Bimanual Manipulation with Low-Cost Hardware"
-    authors: Tony Z. Zhao, Vikash Kumar, Sergey Levine, Chelsea Finn
-    year: 2023
-    url: https://arxiv.org/abs/2304.13705
   - title: "What Matters in Learning from Offline Human Demonstrations for Robot Manipulation"
     authors: Ajay Mandlekar et al.
     year: 2021
     url: https://arxiv.org/abs/2108.03298
+  - title: "Learning Fine-Grained Bimanual Manipulation with Low-Cost Hardware"
+    authors: Tony Z. Zhao, Vikash Kumar, Sergey Levine, Chelsea Finn
+    year: 2023
+    url: https://arxiv.org/abs/2304.13705
   - title: "Open X-Embodiment: Robotic Learning Datasets and RT-X Models"
     authors: Open X-Embodiment Collaboration
     year: 2023

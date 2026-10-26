@@ -10,14 +10,14 @@ papers:
     authors: Tony Z. Zhao, Vikash Kumar, Sergey Levine, Chelsea Finn
     year: 2023
     url: https://arxiv.org/abs/2304.13705
-  - title: "SmolVLA: A Vision-Language-Action Model for Affordable and Efficient Robotics"
-    authors: Mustafa Shukor et al.
-    year: 2025
-    url: https://arxiv.org/abs/2506.01844
   - title: "Open-World Object Manipulation using Pre-trained Vision-Language Models"
     authors: Austin Stone et al.
     year: 2023
     url: https://arxiv.org/abs/2303.00905
+  - title: "SmolVLA: A Vision-Language-Action Model for Affordable and Efficient Robotics"
+    authors: Mustafa Shukor et al.
+    year: 2025
+    url: https://arxiv.org/abs/2506.01844
   - title: "Robot Learning: A Tutorial"
     authors: Francesco Capuano, Caroline Pascal, Adil Zouitine, Thomas Wolf, Michel Aractingi
     year: 2025

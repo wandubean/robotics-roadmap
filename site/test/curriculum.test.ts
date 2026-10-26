@@ -42,6 +42,13 @@ describe('curriculum', () => {
     }
   })
 
+  it('lists every lesson\'s papers oldest first', () => {
+    for (const p of c.lessons) {
+      const years = p.papers.map((q) => q.year)
+      expect(years, p.id).toEqual([...years].sort((a, b) => a - b))
+    }
+  })
+
   it('every lesson ends with a quiz', () => {
     for (const p of c.lessons) expect(existsSync(join(ROOT, p.id, 'quiz.yaml')), `${p.id}/quiz.yaml`).toBe(true)
   })

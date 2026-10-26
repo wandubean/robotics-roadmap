@@ -6,14 +6,14 @@ requires: [mujoco-sim]
 hours: 2
 summary: 물체에 닿는 작업을 위해 손끝의 힘과 단단함을 정하는 제어. τ = JᵀF, computed-torque control, impedance·admittance·hybrid force/position control, torque residual 로 하는 충돌 감지, variable impedance
 papers:
-  - title: "Impedance Control: An Approach to Manipulation: Part I—Theory"
-    authors: Neville Hogan
-    year: 1985
-    url: https://doi.org/10.1115/1.3140702
   - title: "Hybrid Position/Force Control of Manipulators"
     authors: M. H. Raibert, J. J. Craig
     year: 1981
     url: https://doi.org/10.1115/1.3139652
+  - title: "Impedance Control: An Approach to Manipulation: Part I—Theory"
+    authors: Neville Hogan
+    year: 1985
+    url: https://doi.org/10.1115/1.3140702
   - title: "A unified approach for motion and force control of robot manipulators: The operational space formulation"
     authors: Oussama Khatib
     year: 1987

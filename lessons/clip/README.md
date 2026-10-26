@@ -10,6 +10,10 @@ papers:
     authors: Alec Radford et al.
     year: 2021
     url: https://arxiv.org/abs/2103.00020
+  - title: "CLIPort: What and Where Pathways for Robotic Manipulation"
+    authors: Mohit Shridhar, Lucas Manuelli, Dieter Fox
+    year: 2021
+    url: https://arxiv.org/abs/2109.12098
   - title: "Sigmoid Loss for Language Image Pre-Training"
     authors: Xiaohua Zhai, Basil Mustafa, Alexander Kolesnikov, Lucas Beyer
     year: 2023
@@ -18,10 +22,6 @@ papers:
     authors: Mert Yuksekgonul, Federico Bianchi, Pratyusha Kalluri, Dan Jurafsky, James Zou
     year: 2023
     url: https://arxiv.org/abs/2210.01936
-  - title: "CLIPort: What and Where Pathways for Robotic Manipulation"
-    authors: Mohit Shridhar, Lucas Manuelli, Dieter Fox
-    year: 2021
-    url: https://arxiv.org/abs/2109.12098
   - title: "YOLO-World: Real-Time Open-Vocabulary Object Detection"
     authors: Tianheng Cheng et al.
     year: 2024

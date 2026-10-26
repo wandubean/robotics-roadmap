@@ -6,6 +6,10 @@ requires: [transformer]
 hours: 2
 summary: 다음 token 을 맞히도록 학습하는 decoder-only Transformer. 정답이 들어 있는 text, cross-entropy, sampling, 크기와 scaling, 같은 생성 방식으로 행동 token 을 내는 VLA
 papers:
+  - title: "Using the Output Embedding to Improve Language Models"
+    authors: Ofir Press, Lior Wolf
+    year: 2016
+    url: https://arxiv.org/abs/1608.05859
   - title: "Improving Language Understanding by Generative Pre-Training"
     authors: Alec Radford, Karthik Narasimhan, Tim Salimans, Ilya Sutskever
     year: 2018
@@ -14,10 +18,6 @@ papers:
     authors: Alec Radford, Jeffrey Wu, Rewon Child, David Luan, Dario Amodei, Ilya Sutskever
     year: 2019
     url: https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf
-  - title: "Using the Output Embedding to Improve Language Models"
-    authors: Ofir Press, Lior Wolf
-    year: 2016
-    url: https://arxiv.org/abs/1608.05859
   - title: "Scaling Laws for Neural Language Models"
     authors: Jared Kaplan, Sam McCandlish, Tom Henighan, Tom B. Brown, Benjamin Chess, Rewon Child, Scott Gray, Alec Radford, Jeffrey Wu, Dario Amodei
     year: 2020

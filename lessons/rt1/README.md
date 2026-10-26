@@ -6,10 +6,6 @@ requires: [behavior-cloning, transformer, resnet]
 hours: 2
 summary: action 의 차원마다 범위를 칸 256 개로 나눠 분류로 학습하는 RT-1. cross-entropy 가 지키는 두 봉우리, binning 오차, 지시를 섞는 FiLM, token 을 줄이는 TokenLearner, 3 Hz 계산 제한, 시연 13 만 개로 얻은 일반화와 그 한계
 papers:
-  - title: "RT-1: Robotics Transformer for Real-World Control at Scale"
-    authors: Anthony Brohan et al.
-    year: 2022
-    url: https://arxiv.org/abs/2212.06817
   - title: "FiLM: Visual Reasoning with a General Conditioning Layer"
     authors: Ethan Perez, Florian Strub, Harm de Vries, Vincent Dumoulin, Aaron Courville
     year: 2018
@@ -18,6 +14,10 @@ papers:
     authors: Michael S. Ryoo, AJ Piergiovanni, Anurag Arnab, Mostafa Dehghani, Anelia Angelova
     year: 2021
     url: https://arxiv.org/abs/2106.11297
+  - title: "RT-1: Robotics Transformer for Real-World Control at Scale"
+    authors: Anthony Brohan et al.
+    year: 2022
+    url: https://arxiv.org/abs/2212.06817
   - title: "Behavior Transformers: Cloning k modes with one stone"
     authors: Nur Muhammad Mahi Shafiullah, Zichen Jeff Cui, Ariuntuya Altanzaya, Lerrel Pinto
     year: 2022

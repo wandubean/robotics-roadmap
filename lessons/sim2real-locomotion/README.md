@@ -6,6 +6,18 @@ requires: [ppo, mujoco-sim, dagger]
 hours: 3
 summary: simulation 에서 학습한 4족 보행 policy 를 실제 로봇에 옮기는 방법. observation·action·reward, reality gap 의 원인, actuator network, domain randomization 범위, observation noise, 지형 curriculum, teacher-student 학습
 papers:
+  - title: "Domain Randomization for Transferring Deep Neural Networks from Simulation to the Real World"
+    authors: Josh Tobin et al.
+    year: 2017
+    url: https://arxiv.org/abs/1703.06907
+  - title: "Sim-to-Real: Learning Agile Locomotion For Quadruped Robots"
+    authors: Jie Tan et al.
+    year: 2018
+    url: https://arxiv.org/abs/1804.10332
+  - title: "Sim-to-Real Transfer of Robotic Control with Dynamics Randomization"
+    authors: Xue Bin Peng, Marcin Andrychowicz, Wojciech Zaremba, Pieter Abbeel
+    year: 2018
+    url: https://arxiv.org/abs/1710.06537
   - title: "Learning agile and dynamic motor skills for legged robots"
     authors: Jemin Hwangbo et al.
     year: 2019
@@ -18,22 +30,10 @@ papers:
     authors: Nikita Rudin, David Hoeller, Philipp Reist, Marco Hutter
     year: 2021
     url: https://arxiv.org/abs/2109.11978
-  - title: "Sim-to-Real: Learning Agile Locomotion For Quadruped Robots"
-    authors: Jie Tan et al.
-    year: 2018
-    url: https://arxiv.org/abs/1804.10332
   - title: "RMA: Rapid Motor Adaptation for Legged Robots"
     authors: Ashish Kumar, Zipeng Fu, Deepak Pathak, Jitendra Malik
     year: 2021
     url: https://arxiv.org/abs/2107.04034
-  - title: "Sim-to-Real Transfer of Robotic Control with Dynamics Randomization"
-    authors: Xue Bin Peng, Marcin Andrychowicz, Wojciech Zaremba, Pieter Abbeel
-    year: 2018
-    url: https://arxiv.org/abs/1710.06537
-  - title: "Domain Randomization for Transferring Deep Neural Networks from Simulation to the Real World"
-    authors: Josh Tobin et al.
-    year: 2017
-    url: https://arxiv.org/abs/1703.06907
 ---
 
 # Sim-to-Real Locomotion

@@ -10,14 +10,14 @@ papers:
     authors: R. Craig Coulter
     year: 1992
     url: https://www.ri.cmu.edu/publications/implementation-of-the-pure-pursuit-path-tracking-algorithm/
-  - title: "Stanley: The Robot that Won the DARPA Grand Challenge"
-    authors: Sebastian Thrun, Mike Montemerlo, Hendrik Dahlkamp, David Stavens, et al.
-    year: 2006
-    url: https://doi.org/10.1002/rob.20147
   - title: "The Dynamic Window Approach to Collision Avoidance"
     authors: Dieter Fox, Wolfram Burgard, Sebastian Thrun
     year: 1997
     url: https://doi.org/10.1109/100.580977
+  - title: "Stanley: The Robot that Won the DARPA Grand Challenge"
+    authors: Sebastian Thrun, Mike Montemerlo, Hendrik Dahlkamp, David Stavens, et al.
+    year: 2006
+    url: https://doi.org/10.1002/rob.20147
   - title: "Aggressive Driving with Model Predictive Path Integral Control"
     authors: Grady Williams, Paul Drews, Brian Goldfain, James M. Rehg, Evangelos A. Theodorou
     year: 2016
