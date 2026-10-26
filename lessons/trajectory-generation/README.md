@@ -55,8 +55,9 @@ path 를 찾을 때 이미 끝났으므로, trajectory generation 은 그 선을
 
 두 자세 사이는 joint space 보간이나 Cartesian 보간으로 잇는다. joint space 보간은 관절 각도를 시작값에서 끝값까지 같은 진행률로 움직이고,
 Cartesian 보간은 손끝을 공간에서 곧은 선으로 움직인다. joint space 보간은 관절마다 식 하나로 계산이 끝나고 관절 한계를 확인하기 쉽지만 손끝은
-휘어진 길을 간다. [Classical Pick](../classical-pick/README.md) 에서 본 pre-grasp → grasp 이동도 두 끝 자세가 같은 수직선 위에 있었지만
-손끝은 가운데에서 2.5 cm 벗어났다.
+휘어진 길을 간다. 예를 들어 위팔과 아래팔이 0.2 m 인 작은 팔이 물체 위 0.2 m 의 자세에서 수직으로 내려가
+물체를 잡는 자세까지 joint space 보간으로 움직이면, 두 끝 자세의 손끝이 같은 수직선 위에 있어도 가운데 자세의 손끝은 그 선에서 앞으로 2.5 cm
+벗어난다.
 
 Cartesian 보간은 손끝의 곧은 선을 잘게 나누고 나눈 점마다 IK 를 풀어 관절 각도를 구한다. MoveIt 의 `computeCartesianPath` 는 손끝이 지날 선을
 `eef_step`(튜토리얼 값 0.01 m) 간격으로 나누는데, 위치는 직선 위에서 고르게 나누고 손의 방향은 [Rigid Transforms](../transforms/README.md) 에서

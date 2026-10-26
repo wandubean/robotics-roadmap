@@ -558,7 +558,8 @@ $\varepsilon = 0.6$ 을 뽑으면 $u = 0.2 + 0.5 \times 0.6 = 0.5$ 다.
 $\sigma$ 가 클수록 뽑히는 값이 넓게 흩어지므로 entropy 도 크다(Gaussian 의 entropy 는 $\ln \sigma + 1.42$ 다). 무작위성이 $\varepsilon$ 에만
 있으니 $u$ 는 $\mu$ 와 $\sigma$ 의 식이 되어, $\varepsilon = 0.6$ 을 그대로 두고 $\mu$ 를 0.2 에서 0.3 으로 바꾸면 $u$ 는 0.5 에서 0.6 으로
 정확히 0.1 움직인다. 그래서 critic 에서 구한 비율 $\partial Q / \partial a$ 를 $\mu$ 와 $\sigma$ 를 거쳐 actor 의
-weight 까지 전할 수 있다. [VAE](../vae/README.md#reparameterization-trick) 에서 본 reparameterization trick 을 action 에 쓴 것이다.
+weight 까지 전할 수 있다. 이렇게 무작위성을 $\varepsilon$ 에 떼어 두는 방법을 reparameterization trick 이라고 하고,
+[VAE](../vae/README.md#reparameterization-trick) 도 latent 를 뽑을 때 같은 방법을 쓴다.
 
 Gaussian 에서 뽑은 $u$ 는 드물지만 얼마든지 크게 나올 수 있는데, Pendulum 의 torque 는 −2 ~ 2 라서 범위를 묶어야 한다. 어떤 수를 넣어도 −1 과
 1 사이의 값을 내는 $\tanh$ 로 묶고 범위에 맞게 늘린다. $\tanh$ 는 0 근처에서는 거의 입력 그대로이고($\tanh 0.5 = 0.462$) 입력이 커질수록 1 에

@@ -57,8 +57,9 @@ model 은 LLM(large language model)이라고 부른다. LLM 앞에 사진을 tok
 
 RT-2 논문은 새 parameter 를 더하지 않고 VLM 이 action 을 글처럼 쓰도록 학습한 모델을 VLA 라고 불렀다. 사진을 읽는 부분부터 action 을
 내는 부분까지 한 network 라서, 시연의 action 과 얼마나 다른지 잰 loss 로 image encoder 까지 함께 고칠 수 있다.
-[Real Robot](../real-robot/README.md) 에서는 인식기가 물체 위치만 넘기고 작은 policy 가 그 위치로 움직였지만, VLA 에서는 지시문 token 이
-action 을 계산하는 network 안까지 들어간다.
+물체 이름을 받아 사진에서 그 물체를 찾는 인식기와 작은 policy 를 따로 두면, 지시문은 인식기까지만 가고 policy 는 물체 위치만 받는다. VLA 에서는
+지시문 token 이 action 을 계산하는 network 안까지 들어간다. 인식기와 작은 policy 를 나눈 구성은 [Real Robot](../real-robot/README.md) 에서
+실물 팔로 다룬다.
 
 | 모델 | 바탕 VLM | image encoder | language model | 전체 크기 |
 | --- | --- | --- | --- | --- |

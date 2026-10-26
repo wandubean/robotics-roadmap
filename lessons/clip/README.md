@@ -477,7 +477,8 @@ CLIP 식으로 학습한 encoder 를 로봇에서 쓰는 방식은 아래 그림
 
 ### open-vocabulary detection 과 picking
 
-[Classical Pick & Place](../classical-pick/README.md) 에서 본 YOLO-World 는 물체 이름을 숫자로 바꾸는 데 CLIP 의 text encoder 를 그대로 쓴다.
+YOLO-World 는 물체 이름을 받아 사진에서 그 물체를 감싸는 직사각형(bounding box)을 그려 주는 detector 인데, 이름을 숫자로 바꾸는 데 CLIP 의
+text encoder 를 그대로 쓴다.
 사용자가 "cup" 을 주면 text encoder 가 그 embedding 을 만들고, detector 는 사진에서 물체가 있을 만한 영역마다 계산한 embedding 과 비교해 점수가
 높은 영역에 bounding box 를 그린다. zero-shot 분류가 사진 전체를 문장과 비교했다면, 이 detector 는 같은 비교를 영역 하나하나에 한다. 정해진
 단어 목록에 묶이지 않아서 이런 detector 를 open-vocabulary detector 라고 부른다.

@@ -372,7 +372,7 @@ $500 \times 1.05 \times 0.02 \approx 10.5$ pixel 이다. FAST 가 보는 원의 
   측정이 scale 을 정하고(ORB-SLAM3 는 2 초에 5 %), 사진이 번지거나 feature 가 사라진 몇 초 동안 pose 를 이어 간다
 
 Visual SLAM 은 로봇이 지도 위 어디 있는지 알려 주지만 어느 길로 갈지는 정하지 않고, 듬성듬성한 map point 는 그대로 장애물 지도가
-되지도 않는다. 다음 강의 [Path Planning](../path-planning/README.md) 에서는 지도를 장애물
+되지도 않는다. [Path Planning](../path-planning/README.md) 에서는 지도를 장애물
 비용 지도(costmap)로 바꾸고 그 위에서 경로를 찾는 방법을 다룬다.
 
 ## 참고 자료

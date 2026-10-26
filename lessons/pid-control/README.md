@@ -411,7 +411,7 @@ policy 는 $1 / 20 = 0.05$ 초마다, PID 는 $1 / 500 = 0.002$ 초마다 계산
 - 학습한 policy 는 10 ~ 50 Hz 로 목표 각도를 내고, 그 아래에서 수백 ~ 수천 Hz 로 계산하는 PID 가 motor 를 움직인다
 
 PID 는 관절 하나가 목표 각도 하나를 따라가는 계산이다. 팔로 물체를 집으려면 먼저 손끝을 물체 위치에 두려면 관절마다 몇 도가 되어야 하는지를
-구해야 하고, 다음 강의 [Inverse Kinematics](../inverse-kinematics/README.md) 에서 그 계산을 다룬다.
+구해야 하고, 그 계산은 [Inverse Kinematics](../inverse-kinematics/README.md) 에서 다룬다.
 
 ## 참고 자료
 
