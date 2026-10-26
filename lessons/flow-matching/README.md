@@ -507,21 +507,8 @@ flow matching 은 같은 오차에 닿는 데 network 를 diffusion 경로 모�
 >
 > **사실** 위 1 차원 비교는 두 방법 모두 정확한 답을 쓰게 해서 network 의 차이가 없는데도 결과가 갈렸다. 차이는 경로의 모양과 그 경로를 따라가는 계산 방식에서 난다.
 
-<details><summary><b>심화: reflow</b></summary>
-
-Liu 등은 경로를 더 곧게 펴려고, 학습을 마친 모델로 noise $\epsilon$ 에서 sample $x_1'$ 을 만든 뒤 무작위 짝 대신 이 $(\epsilon, x_1')$ 쌍으로
-같은 loss 를 한 번 더 학습했다. 이 과정을 **reflow** 라고 하고, rectify 는 곧게 편다는 뜻이다. 위 데이터에서 학습된 경로는 양수 noise 를
-$+2$ 로 보내고 음수 noise 를 $-2$ 로 보냈으므로 이 짝으로 다시 그은 직선은 엇갈리지 않는다. $\epsilon = 0.5$ 는 $+2$ 와 짝이 되어 target
-velocity 가 $2 - 0.5 = 1.5$ 다. 이 자리를 지나는 다른 직선이 없으니 network 는 1.5 를 그대로 배우고, 1 step 으로 $0.5 + 1 \times 1.5 = 2$
-에 닿는다.
-
-![왼쪽은 noise 와 데이터를 무작위로 짝지은 직선으로 서로 엇갈린다. 오른쪽은 학습한 모델이 noise 에서 실제로 만든 값과 다시 짝지은 직선으로, 양수 noise 는 +2 와 짝이 되고 음수 noise 는 −2 와 짝이 되어 엇갈리지 않는다. ε = 0.5 는 +2 와 짝이 되어 속도 1.5 의 직선이 되고 1 step 으로 2 에 닿는다](figures/reflow.svg)
-
-이 1 차원 예는 reflow 한 번으로 엇갈림이 모두 사라지는 쉬운 경우다. 실제 데이터에서는 reflow 를 해도 완전한 직선이 되지 않지만, 더
-곧아지는 만큼 적은 step 으로 sampling 할 수 있다. Liu 등은 한 번 reflow 한 모델이 Euler step 한 번으로도 쓸 만한 이미지를 만든다고
-보고했다.
-
-</details>
+학습된 모델이 만든 짝으로 경로를 곧게 펴는 reflow 와, network 를 한 번만 써서 sample 을 만드는 다른 방법들은
+[One-step Flow](../one-step-flow/README.md) 에서 다룬다.
 
 **확인 문제.** 같은 noise $\epsilon = 0.5$ 에서 flow matching 으로 10 step sampling 을 두 번 하면 두 sample 은 같을까? DDPM 이라면?
 

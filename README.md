@@ -4,8 +4,8 @@
 
 **로보틱스 개발자가 되기 위한 오픈소스 독학 커리큘럼**
 
-[![Lessons](https://img.shields.io/badge/lessons-56-2dd4bf)](#커리큘럼)
-[![Hours](https://img.shields.io/badge/hours-118-818cf8)](#커리큘럼)
+[![Lessons](https://img.shields.io/badge/lessons-57-2dd4bf)](#커리큘럼)
+[![Hours](https://img.shields.io/badge/hours-120-818cf8)](#커리큘럼)
 [![Lessons license](https://img.shields.io/badge/lessons-CC%20BY--NC--SA%204.0-lightgrey)](lessons/LICENSE.md)
 [![Site license](https://img.shields.io/badge/site-MIT-blue)](LICENSE)
 [![Node](https://img.shields.io/badge/node-%E2%89%A520.19-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
@@ -20,7 +20,7 @@
 ## 소개
 
 로보틱스 개발자가 되기 위한 독학 커리큘럼입니다. vector·미분·확률과 ROS 2 같은 공통 기초에서 출발해 robot learning, manipulation,
-mobile robot·자율주행 세 직무 방향으로 나아가는 강의 56개를 담았습니다. 리포를 fork 해 지도를 띄우면 강의를 읽고 퀴즈를 풀며 혼자서
+mobile robot·자율주행 세 직무 방향으로 나아가는 강의 57개를 담았습니다. 리포를 fork 해 지도를 띄우면 강의를 읽고 퀴즈를 풀며 혼자서
 진도를 이어 갈 수 있습니다.
 
 ## 특징
@@ -85,7 +85,7 @@ git merge upstream/main
 | 영역 | 다루는 것 |
 | --- | --- |
 | 공통 기초 | vector·행렬, 미분·gradient, 확률·Gaussian, ROS 2(node·topic·tf2), 좌표 변환, PID 제어, 카메라 geometry |
-| Robot Learning | linear regression 에서 PyTorch 까지의 신경망 기초, CNN·ViT·CLIP, Transformer·GPT-2, VAE·diffusion·flow matching, 강화학습(DQN·SAC·PPO·sim-to-real), imitation learning(behavior cloning·DAgger·ACT·Diffusion Policy), VLA(RT-2·OpenVLA·π0·GR00T N1), world model |
+| Robot Learning | linear regression 에서 PyTorch 까지의 신경망 기초, CNN·ViT·CLIP, Transformer·GPT-2, VAE·diffusion·flow matching·one-step 생성, 강화학습(DQN·SAC·PPO·sim-to-real), imitation learning(behavior cloning·DAgger·ACT·Diffusion Policy), VLA(RT-2·OpenVLA·π0·GR00T N1), world model |
 | Manipulation | forward·inverse kinematics, MuJoCo simulation, force·impedance control, ros2_control, trajectory generation, motion planning(RRT·OMPL·MoveIt 2), hand-eye calibration, pick-and-place, grasp planning |
 | Mobile Autonomy(이동 로봇·자율주행) | Kalman filter, particle filter, LiDAR·visual SLAM, path planning(A*·Nav2), path tracking(pure pursuit·MPC), LiDAR perception, 자율주행 stack(Autoware) |
 
@@ -110,7 +110,7 @@ git merge upstream/main
 
 ```text
 robotics-roadmap/
-├── lessons/              # 강의 56개
+├── lessons/              # 강의 57개
 │   ├── branches.yaml     # 지도의 동심원·영역·branch 설정
 │   └── <강의>/
 │       ├── README.md     # 강의 본문 (frontmatter 에 선수 강의·시간·논문)

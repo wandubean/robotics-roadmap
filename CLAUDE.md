@@ -1,6 +1,6 @@
 # Robotics Roadmap
 
-로보틱스 개발자가 되기 위한 한국어 독학 커리큘럼이다. `lessons/<id>/` 에 강의 56개가 있고, `site/` 의 Vite + React 앱이 강의
+로보틱스 개발자가 되기 위한 한국어 독학 커리큘럼이다. `lessons/<id>/` 에 강의 57개가 있고, `site/` 의 Vite + React 앱이 강의
 frontmatter 를 읽어 선수 관계 지도를 그린다. 공부하는 법은 [README.md](README.md) 에 있다.
 
 ## 먼저 읽을 문서
