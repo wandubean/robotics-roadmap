@@ -2,7 +2,7 @@
 id: flow-matching
 title: Flow Matching
 branch: generative
-requires: [ddpm]
+requires: [diffusion-policy]
 hours: 2
 summary: noise 와 데이터를 잇는 직선 위의 속도를 network 가 맞히게 학습하고, 그 속도로 Euler step 몇 번만 밟아 sample 을 만드는 생성 방법. target velocity, step 수와 품질, diffusion 과의 비교, π0·GR00T N1 의 action 생성
 papers:

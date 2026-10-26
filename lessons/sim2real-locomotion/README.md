@@ -2,7 +2,7 @@
 id: sim2real-locomotion
 title: "Sim-to-Real Locomotion"
 branch: rl
-requires: [ppo, mujoco-sim]
+requires: [ppo, mujoco-sim, dagger]
 hours: 3
 summary: simulation 에서 학습한 4족 보행 policy 를 실제 로봇에 옮기는 방법. observation·action·reward, reality gap 의 원인, actuator network, domain randomization 범위, observation noise, 지형 curriculum, teacher-student 학습
 papers:

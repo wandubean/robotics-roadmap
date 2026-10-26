@@ -4,7 +4,7 @@ import { nodeState, passedOn, statusOf } from '../src/curriculum/progress'
 import type { Attempt } from '../src/curriculum/quiz'
 import type { Branch, Lesson } from '../src/curriculum/types'
 
-const branch: Branch = { id: 'core', title: 'Core', summary: 's', color: '#fff', core: true }
+const branch: Branch = { id: 'core', title: 'Core', summary: 's', color: '#fff', core: true, outer: false }
 const lesson = (id: string, requires: string[]): Lesson => ({
   id,
   title: id,

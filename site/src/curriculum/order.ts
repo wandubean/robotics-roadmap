@@ -13,18 +13,27 @@ export interface Ordering {
   crossings: number
 }
 
-/** Layer = length of the longest prerequisite chain above the lesson. */
+/**
+ * Layer = length of the longest prerequisite chain above the lesson. Lessons of an outer branch go no higher than the
+ * deepest of the other lessons, so the newest research ends the tree.
+ */
 function assignLayers(c: Curriculum): Map<string, number> {
-  const layer = new Map<string, number>()
-  const visit = (id: string): number => {
-    const known = layer.get(id)
-    if (known !== undefined) return known
-    const l = Math.max(-1, ...c.byId.get(id)!.requires.map(visit)) + 1
-    layer.set(id, l)
-    return l
+  const outer = new Set(c.branches.filter((b) => b.outer).map((b) => b.id))
+  const isOuter = (id: string) => outer.has(c.byId.get(id)!.branch)
+  const longest = (floor: number): Map<string, number> => {
+    const layer = new Map<string, number>()
+    const visit = (id: string): number => {
+      const known = layer.get(id)
+      if (known !== undefined) return known
+      const l = Math.max(Math.max(-1, ...c.byId.get(id)!.requires.map(visit)) + 1, isOuter(id) ? floor : 0)
+      layer.set(id, l)
+      return l
+    }
+    for (const p of c.lessons) visit(p.id)
+    return layer
   }
-  for (const p of c.lessons) visit(p.id)
-  return layer
+  const natural = longest(0)
+  return longest(Math.max(0, ...c.lessons.filter((p) => !isOuter(p.id)).map((p) => natural.get(p.id)!)))
 }
 
 /** mulberry32: small seeded PRNG so the map comes out the same on every load */

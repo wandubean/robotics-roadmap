@@ -2,7 +2,7 @@
 id: diffusion-policy
 title: Diffusion Policy
 branch: imitation
-requires: [rt1, ddpm]
+requires: [rt1, ddpm, act]
 hours: 2
 summary: 관측을 조건으로 noise 에서 앞으로 몇 step 의 action 을 한 덩어리로 걷어 내는 policy. 관측 조건 denoising, prediction·action horizon 과 receding horizon, CNN·transformer denoiser, DDIM, PushT 결과
 papers:

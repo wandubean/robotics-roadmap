@@ -2,7 +2,7 @@
 id: grasping
 title: Grasp Planning
 branch: grasping
-requires: [classical-pick, cnn]
+requires: [hand-eye-calibration, cnn]
 hours: 2
 summary: 물체의 어디를 어느 방향으로 얼마나 벌려 쥘지 정하는 계산. grasp 표현, gripper 종류, friction cone 과 antipodal grasp, force closure, grip force, Ferrari-Canny 품질, Dex-Net·GraspNet-1Billion·Contact-GraspNet·AnyGrasp, 실행까지의 pipeline 과 실패 원인
 papers:

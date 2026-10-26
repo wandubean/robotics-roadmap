@@ -2,7 +2,7 @@
 id: hand-eye-calibration
 title: Hand-Eye Calibration
 branch: grasping
-requires: [camera-geometry, forward-kinematics]
+requires: [classical-pick]
 hours: 2
 summary: 카메라와 gripper(또는 로봇 base) 사이의 transform 을 로봇을 움직여 계산하는 방법. eye-in-hand 와 eye-to-hand, AX = XB, 회전 축이 필요한 이유, 자세 수집, Tsai·Park·Daniilidis solver, 검증과 MoveIt Calibration·easy_handeye2
 papers:

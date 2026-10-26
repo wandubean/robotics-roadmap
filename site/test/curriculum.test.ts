@@ -214,6 +214,18 @@ describe('curriculum', () => {
     }
   })
 
+  it('ends each tree with its outer branch', () => {
+    const L = CONFIG.layout
+    const outer = new Set(c.branches.filter((b) => b.outer).map((b) => b.id))
+    for (const t of c.trees) {
+      const { curriculum } = treeCurriculum(c, t)
+      const { rows } = orderLayers(curriculum, { restarts: 1, sweeps: L.orderSweeps, seed: L.orderSeed })
+      const last = rows.length - 1
+      const rowOf = (id: string) => rows.findIndex((row) => row.includes(id))
+      for (const p of curriculum.lessons.filter((p) => outer.has(p.branch))) expect(rowOf(p.id), p.id).toBe(last)
+    }
+  })
+
   it('draws no more crossings inside a tree than the layer order it was given', async () => {
     const L = CONFIG.layout
     const layout = await computeLayout(c)

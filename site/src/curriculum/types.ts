@@ -5,6 +5,8 @@ export interface Branch {
   color: string
   /** the foundations every other branch builds on; its chain is laid out as the graph's straight trunk */
   core: boolean
+  /** the newest research; its lessons sit on the last row of their tree */
+  outer: boolean
 }
 
 /** One tree of the map: a group of branches that grows from the starting lesson in one direction. */

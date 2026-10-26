@@ -41,12 +41,14 @@ export function parseBranches(source: string): MapSpec {
     const where = `branches.yaml branches[${i}]`
     const b = raw as Record<string, unknown>
     if (b.core !== undefined && typeof b.core !== 'boolean') fail(where, '"core" must be true or false')
+    if (b.outer !== undefined && typeof b.outer !== 'boolean') fail(where, '"outer" must be true or false')
     return {
       id: str(b.id, where, 'id'),
       title: str(b.title, where, 'title'),
       summary: str(b.summary, where, 'summary'),
       color: str(b.color, where, 'color'),
       core: b.core === true,
+      outer: b.outer === true,
     }
   })
   return { hub, trees, branches }
