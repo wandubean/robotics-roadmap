@@ -235,20 +235,25 @@ describe('curriculum', () => {
       const { curriculum } = treeCurriculum(c, t)
       const order = orderLayers(curriculum, { restarts: L.orderRestarts, sweeps: L.orderSweeps, seed: L.orderSeed })
       const own = layout.edges.filter((e) => curriculum.byId.get(e.to)?.requires.includes(e.from))
-      let drawn = 0
+      // count every place two edges meet, as orderLayers counts one crossing per layer gap; edges gathered into one line
+      // cross another edge at one place
+      const drawn = new Set<string>()
       own.forEach((e, i) => {
         for (const g of own.slice(i + 1)) {
           // edges that share a lesson meet at its port; that is not a crossing
           if ([e.from, e.to].some((id) => id === g.from || id === g.to)) continue
-          // count every place two edges meet, as orderLayers counts one crossing per layer gap
           e.points.slice(1).forEach((b, k) => {
             g.points.slice(1).forEach((q, m) => {
-              if (cross(e.points[k], b, g.points[m], q)) drawn++
+              const a = e.points[k]
+              if (cross(a, b, g.points[m], q)) {
+                const s = side(g.points[m], q, a) / (side(g.points[m], q, a) - side(g.points[m], q, b))
+                drawn.add(`${Math.round(a.x + s * (b.x - a.x))},${Math.round(a.y + s * (b.y - a.y))}`)
+              }
             })
           })
         }
       })
-      expect(drawn, t.id).toBeLessThanOrEqual(order.crossings)
+      expect(drawn.size, t.id).toBeLessThanOrEqual(order.crossings)
     }
   })
 })

@@ -6,9 +6,12 @@ import type { Curriculum } from './types.ts'
 export interface Ordering {
   /**
    * layers from the top, every prerequisite in a higher layer than the lessons it opens; each left to right:
-   * lesson ids, and `from>to@layer` for an edge passing through that layer
+   * lesson ids, and a waypoint for the edges passing through that layer: `from>to@layer` for one edge alone,
+   * `*>to@layer` for the edges gathered into one lesson, `from>*@layer` for the edges leaving one lesson together
    */
   rows: string[][]
+  /** the waypoints of each edge `from>to`, from the top */
+  via: Map<string, string[]>
   /** edge crossings between neighbouring layers in `rows` */
   crossings: number
 }
@@ -51,24 +54,42 @@ export function orderLayers(c: Curriculum, opts: { restarts: number; sweeps: num
   const rows: string[][] = Array.from({ length: Math.max(...layer.values()) + 1 }, () => [])
   for (const p of c.lessons) rows[layer.get(p.id)!].push(p.id)
 
-  // split every edge into one segment per layer gap, with a dummy vertex in each layer it passes
+  // split every edge into one segment per layer gap, with a waypoint in each layer it passes. Edges into one lesson
+  // share their waypoints from the layer below their lowest prerequisite, so they meet early and arrive as one line;
+  // edges out of one lesson share theirs above that, until each turns toward its own lesson
+  const edges = c.lessons.flatMap((p) => p.requires.map((r) => ({ from: r, to: p.id })))
+  const long = edges.filter((e) => layer.get(e.to)! - layer.get(e.from)! >= 2)
+  const meet = new Map<string, number>()
+  for (const p of c.lessons) {
+    const into = long.filter((e) => e.to === p.id)
+    if (into.length >= 2) meet.set(p.id, Math.max(...into.map((e) => layer.get(e.from)!)) + 1)
+  }
+  const gathered = (e: { to: string }, l: number) => meet.has(e.to) && l >= meet.get(e.to)!
+  const leaving = (r: string, l: number) =>
+    long.filter((e) => e.from === r && layer.get(r)! < l && l < layer.get(e.to)! && !gathered(e, l)).length
+  const waypoint = (e: { from: string; to: string }, l: number) =>
+    gathered(e, l) ? `*>${e.to}@${l}` : leaving(e.from, l) >= 2 ? `${e.from}>*@${l}` : `${e.from}>${e.to}@${l}`
+
   const up = new Map<string, string[]>()
   const down = new Map<string, string[]>()
   const link = (a: string, b: string) => {
+    if (down.get(a)?.includes(b)) return
     down.set(a, [...(down.get(a) ?? []), b])
     up.set(b, [...(up.get(b) ?? []), a])
   }
-  for (const p of c.lessons) {
-    for (const r of p.requires) {
-      let prev = r
-      for (let l = layer.get(r)! + 1; l < layer.get(p.id)!; l++) {
-        const dummy = `${r}>${p.id}@${l}`
-        rows[l].push(dummy)
-        link(prev, dummy)
-        prev = dummy
-      }
-      link(prev, p.id)
+  const via = new Map<string, string[]>()
+  for (const e of edges) {
+    const stops: string[] = []
+    let prev = e.from
+    for (let l = layer.get(e.from)! + 1; l < layer.get(e.to)!; l++) {
+      const w = waypoint(e, l)
+      if (!rows[l].includes(w)) rows[l].push(w)
+      stops.push(w)
+      link(prev, w)
+      prev = w
     }
+    link(prev, e.to)
+    via.set(`${e.from}>${e.to}`, stops)
   }
 
   const pos = new Map<string, number>()
@@ -118,7 +139,7 @@ export function orderLayers(c: Curriculum, opts: { restarts: number; sweeps: num
   }
 
   const rand = random(opts.seed)
-  let best = { rows: rows.map((r) => [...r]), crossings: Infinity }
+  let best = { rows: rows.map((r) => [...r]), via, crossings: Infinity }
   for (let start = 0; start < opts.restarts; start++) {
     // the first start keeps the lessons' file order, the rest shuffle every layer
     if (start > 0) {
@@ -135,7 +156,7 @@ export function orderLayers(c: Curriculum, opts: { restarts: number; sweeps: num
       else for (let l = rows.length - 2; l >= 0; l--) sweep(l, down)
       transpose()
       const n = total()
-      if (n < best.crossings) best = { rows: rows.map((r) => [...r]), crossings: n }
+      if (n < best.crossings) best = { rows: rows.map((r) => [...r]), via, crossings: n }
     }
     if (best.crossings === 0) break
   }

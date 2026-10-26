@@ -341,8 +341,7 @@ async function draftTree(c: Curriculum, t: Tree, shapeOf: (id: string) => { size
   )
   const chains = sub.lessons.flatMap((p) =>
     p.requires.map((r) => {
-      const via = order.rows.flatMap((row) => row.filter((v) => v.startsWith(`${r}>${p.id}@`)))
-      return { from: r, to: p.id, via }
+      return { from: r, to: p.id, via: order.via.get(`${r}>${p.id}`)! }
     }),
   )
   // every lesson takes its edges at the near side of its circle and sends them from the far side of its label, both on
@@ -396,18 +395,24 @@ async function draftTree(c: Curriculum, t: Tree, shapeOf: (id: string) => { size
         }
       }),
     ),
-    edges: chains.flatMap(({ from, to, via }) => {
-      const stops = [from, ...via, to]
-      return stops.slice(1).map(
-        (v, k): ElkExtendedEdge => ({
-          id: `${from}>${to}#${k}`,
-          sources: [`${stops[k]}:out`],
-          targets: [`${v}:in`],
-          // keep the core chain one straight line down the tree
-          layoutOptions: isTrunk(from, to) ? { 'elk.layered.priority.straightness': String(L.trunkStraightness) } : {},
+    // edges that share waypoints share the segments between them, which ELK gets once
+    edges: [
+      ...new Map(
+        chains.flatMap(({ from, to, via }) => {
+          const stops = [from, ...via, to]
+          return stops.slice(1).map((v, k): [string, ElkExtendedEdge] => [
+            `${stops[k]}>${v}`,
+            {
+              id: `${from}>${to}#${k}`,
+              sources: [`${stops[k]}:out`],
+              targets: [`${v}:in`],
+              // keep the core chain one straight line down the tree
+              layoutOptions: isTrunk(from, to) ? { 'elk.layered.priority.straightness': String(L.trunkStraightness) } : {},
+            },
+          ])
         }),
-      )
-    }),
+      ).values(),
+    ],
   }
   const graph = await new ELK().layout(input)
 
