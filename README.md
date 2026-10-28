@@ -53,6 +53,32 @@ mobile robot·자율주행 세 직무 방향으로 나아가는 강의 57개를 
 
 3. 브라우저에서 http://localhost:5173 을 엽니다
 
+### 내 계정의 진행도 자동 동기화
+
+이 fork는 `wandubean/robotics-roadmap`에 진행도를 저장합니다. 아래 스크립트로 실행하면 시작 시 최신 기록을 받고,
+실행 중 15초마다 퀴즈 기록을 커밋하고 push합니다. 종료할 때도 한 번 더 저장합니다.
+
+```bash
+./start.sh
+```
+
+다른 컴퓨터에서는 git, Node.js/npm, GitHub CLI를 설치하고 같은 GitHub 계정으로 로그인한 뒤 실행합니다.
+호환되는 Node.js가 없으면 스크립트가 프로젝트 내부에 Node.js 22를 설치하고, 사이트 의존성도 설치합니다.
+
+```bash
+gh auth login
+gh auth setup-git
+git clone https://github.com/wandubean/robotics-roadmap.git
+cd robotics-roadmap
+./start.sh
+```
+
+컴퓨터를 바꾸기 전에 현재 서버를 `Ctrl+C`로 종료하고 업로드 완료를 확인하세요.
+동시에 여러 컴퓨터에서 퀴즈를 풀면 자동 push가 거부될 수 있습니다.
+인터넷 문제로 업로드하지 못한 기록은 로컬에 남으며, `./sync-progress.sh`로 다시 올릴 수 있습니다.
+시작 시 동기화가 실패하면 서버를 시작하지 않으며, Git 충돌을 자동으로 덮어쓰지 않습니다.
+`npm run dev`로 직접 실행하면 자동 동기화가 동작하지 않습니다.
+
 ### 퀴즈 기록
 
 퀴즈를 제출하면 지도를 띄운 dev server 가 답안을 채점해 `progress/<강의>.json` 에 저장합니다. 이 파일은 내 컴퓨터에만 있으므로,

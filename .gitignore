@@ -25,3 +25,6 @@ MUJOCO_LOG.TXT
 .DS_Store
 .idea/
 .vscode/
+
+# project-local Node.js runtime
+.runtime/
